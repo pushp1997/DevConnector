@@ -1,7 +1,14 @@
 import React, { Fragment, useState } from 'react';
+import { connect } from 'react-redux';
+// TO connect this component with Redux
 import { Link } from 'react-router-dom';
+import { setAlert } from '../../actions/alert';
+import PropTypes from 'prop-types';
 
-const Register = () => {
+// instead of const Register = props => { and then using props.setAlert, we can destructure it
+const Register = ({ setAlert }) => {
+    // formData is State (object with all the field values) and setFormData is the function
+    // we want to use to update our state
     const [formData, setFormData] = useState({
         name: '',
         email: '',
@@ -13,12 +20,14 @@ const Register = () => {
 
     const onChange = e =>
         setFormData({ ...formData, [e.target.name]: e.target.value });
-    // instead of writing name : e.target.value, because it would have always change name state
+    // instead of writing name : e.target.value, because it would have always changed name state
 
     const onSubmit = async e => {
         e.preventDefault();
+        // preventDefault is called on the event when submitting the form to prevent a browser reload/refresh
         if (password !== password2) {
-            console.log('Passwords do not match');
+            setAlert('Passwords do not match', 'danger');
+            // Could also be written as props.setAlert, it pass the string as a message to our action
         } else {
             console.log('SUCCESS');
         }
@@ -88,4 +97,11 @@ const Register = () => {
     );
 };
 
-export default Register;
+Register.propTypes = {
+    setAlert: PropTypes.func.isRequired
+};
+
+export default connect(null, { setAlert })(Register);
+// Whenever we bring an action (setAlert), we have to pass it in connect
+// Connect taked two args, first, any state that we wanna map, second, an object with any action
+// that we want to use (setAlert). This allows to use props.setAlert above.
