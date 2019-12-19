@@ -2,6 +2,7 @@ import React, { Fragment, useState } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { login } from '../../actions/auth';
+import PropTypes from 'prop-types';
 
 const Login = ({ login, isAuthenticated }) => {
     const [formData, setFormData] = useState({
@@ -29,7 +30,7 @@ const Login = ({ login, isAuthenticated }) => {
         <Fragment>
             <h1 className='large text-primary'>Sign In</h1>
             <p className='lead'>
-                <i className='fas fa-user'></i> Sign Into Your Account
+                <i className='fas fa-user' /> Sign Into Your Account
             </p>
             <form className='form' onSubmit={e => onSubmit(e)}>
                 <div className='form-group'>
@@ -65,7 +66,7 @@ const Login = ({ login, isAuthenticated }) => {
     );
 };
 
-login.propTypes = {
+Login.propTypes = {
     login: PropTypes.func.isRequired,
     isAuthenticated: PropTypes.bool
 };
