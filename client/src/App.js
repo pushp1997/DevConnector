@@ -8,6 +8,8 @@ import Register from './components/auth/Register';
 import Login from './components/auth/Login';
 import Alert from './components/layout/Alert';
 import './App.css';
+import Dashboard from './components/dashboard/Dashboard';
+import PrivateRoute from './components/routing/PrivateRoute';
 // For Redux
 import { Provider } from 'react-redux';
 // Provider connects React & Redux, we need to wrap react app in Provider
@@ -39,6 +41,11 @@ const App = () => {
                                 component={Register}
                             />
                             <Route exact path='/login' component={Login} />
+                            <PrivateRoute
+                                exact
+                                path='/dashboard'
+                                component={Dashboard}
+                            />
                         </Switch>
                     </section>
                 </Fragment>
