@@ -1,16 +1,44 @@
 //In this we are going to fetch all of our data, using an action and then bring it in from the redux
 // state and then we'll pass it down to other components
-import React, { useEffect } from 'react';
+import React, { useEffect, Fragment } from 'react';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import Spinner from '../layout/Spinner';
 import { getCurrentProfile } from '../../actions/profile';
 
-const Dashboard = ({ getCurrentProfile, auth, profile }) => {
+const Dashboard = ({
+    getCurrentProfile,
+    auth: { user },
+    profile: { profile, loading }
+}) => {
     useEffect(() => {
         getCurrentProfile();
     }, []);
 
-    return <div>Dashboard</div>;
+    return loading && profile === null ? (
+        <Spinner />
+    ) : (
+        <Fragment>
+            <h1 className='large text-primary'>Dashboard</h1>
+            <p className='lead'>
+                <i className='fas fas-user'> Welcome {user && user.name}</i>
+            </p>
+            {profile !== null ? (
+                <Fragment>has</Fragment>
+            ) : (
+                <Fragment>
+                    <p>
+                        You Have'nt set up a profile yet, please set your
+                        profile
+                    </p>
+                    <Link to='/create-profile' className='btn btn-primary my-1'>
+                        Create Profile
+                    </Link>
+                </Fragment>
+            )}
+        </Fragment>
+    );
 };
 
 Dashboard.propTypes = {
